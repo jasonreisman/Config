@@ -1,0 +1,111 @@
+[user]
+    name = Jason Reisman
+    email = jasonr@fiftythree.com
+
+[alias]
+    st = status -s
+    ci = commit
+    cm = commit
+    br = branch -vv
+    co = checkout
+    df = diff
+    dt = difftool --dir-diff
+    dtc = difftool --dir-diff --cached
+    prdt = "!f() { git pr difftool $1 -- --dir-diff; }; f"
+    # dtc = difftool --cached
+    # dt = difftool
+    lg = log -p
+    lgf = log --follow
+    logf = log --follow
+    logp = log -p
+    lol = log --graph --decorate --pretty=oneline --abbrev-commit
+    lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+    ls = ls-files
+    diff2 = diff --cached
+    discard = checkout --
+    unstage = reset HEAD
+    amend = commit --amend
+    feature = flow feature
+    release = flow release
+    hotfix = flow hotfix
+    fixup = !sh -c 'git commit -m \"fixup! $(git log -1 --format='\\''%s'\\'' $@)\"' -
+    squash = !sh -c 'git commit -m \"squash! $(git log -1 --format='\\''%s'\\'' $@)\"' -
+    ri = rebase --interactive --autosquash
+    rc = rebase --continue
+    ra = rebase --abort
+
+[push]
+    default = upstream
+
+[branch]
+    autosetuprebase = always
+
+[difftool]
+[diff]
+[color]
+    branch = auto
+    diff = auto
+    status = auto
+
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = cyan
+
+[core]
+    editor = mate -w
+    autocrlf = false
+    safecrlf = warn
+	trustctime = false
+
+[diff]
+	tool = bcomp
+
+[difftool]
+	prompt = false
+
+[difftool "bcomp"]
+    keepBackup = true
+    trustExitCode = true
+    cmd = "/usr/local/bin/bcomp" "$LOCAL" "$REMOTE"
+
+[difftool "p4merge"]
+    path = /Applications/p4merge.app/Contents/MacOS/p4merge
+			
+[merge]
+	conflictStyle = diff3
+# [merge]
+#   tool = araxis
+[mergetool "Kaleidoscope"]
+	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
+	trustExitCode = true
+	
+[merge]
+    tool = bcomp
+    # tool = Kaleidoscope
+    # tool = p4merge
+[mergetool]
+	prompt = false
+[mergetool "bcomp"]
+    trustExitCode = true
+    cmd = "/usr/local/bin/bcomp" "$LOCAL" "$REMOTE" "$BASE" "$MERGED"
+[mergetool "p4merge"]
+    path = /Applications/p4merge.app/Contents/MacOS/p4merge
+    trustExitCode = false
+[difftool "Kaleidoscope"]
+	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
+[filter "lfs"]
+	clean = git lfs clean %f
+	smudge = git lfs smudge %f
+	required = true
